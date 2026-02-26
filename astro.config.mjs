@@ -14,6 +14,9 @@ export default defineConfig({
     starlight({
       title: 'Cinema Platform',
       customCss: ['./src/styles/global.css'],
+      components: {
+        ThemeSelect: './src/components/CustomThemeSelect.astro',
+      },
       plugins: [
         starlightOpenAPI([
           {
