@@ -8,8 +8,14 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+
+    "lint": "biome lint ./src",
+    "lint:fix": "biome lint --write ./src",
+
+    "format": "biome format --write ./src && prettier --write \"./src/**/*.{astro,mdx,md}\"",
+    "format:check": "biome format ./src && prettier --check \"./src/**/*.{astro,mdx,md}\"",
+
+    "check": "biome check --write ./src && prettier --write \"./src/**/*.{astro,mdx,md}\""
   },
   "dependencies": {
     "@astrojs/starlight": "^0.37.6",
@@ -21,8 +27,8 @@
     "tailwindcss": "^4.2.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.4",
     "prettier": "^3.5.1",
-    "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-tailwindcss": "^0.6.11"
+    "prettier-plugin-astro": "^0.14.1"
   }
 }

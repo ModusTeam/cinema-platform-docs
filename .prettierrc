@@ -3,12 +3,20 @@
   "singleQuote": true,
   "tabWidth": 2,
   "useTabs": false,
-  "plugins": ["prettier-plugin-astro", "prettier-plugin-tailwindcss"],
+  "printWidth": 100,
+  "plugins": ["prettier-plugin-astro"],
   "overrides": [
     {
       "files": "*.astro",
       "options": {
         "parser": "astro"
+      }
+    },
+    {
+      "files": ["*.mdx", "*.md"],
+      "options": {
+        "proseWrap": "preserve",
+        "embeddedLanguageFormatting": "auto"
       }
     }
   ]
