@@ -7,6 +7,9 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://modusteam.github.io',
+  base: '/cinema-platform-docs',
+
   integrations: [
     starlight({
       title: 'Cinema Platform',
