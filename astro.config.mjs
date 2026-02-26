@@ -16,6 +16,7 @@ export default defineConfig({
       customCss: ['./src/styles/global.css'],
       components: {
         ThemeSelect: './src/components/CustomThemeSelect.astro',
+        Footer: './src/components/CustomFooter.astro',
       },
       plugins: [
         starlightOpenAPI([
