@@ -1,7 +1,13 @@
 ---
 title: System Overview
 description: Загальна архітектура бекенду Cinema Platform.
+sidebar:
+  badge:
+   text: New
+   variant: success
 ---
+
+import { Badge } from '@astrojs/starlight/components';
 
 Бекенд побудований на **.NET** із використанням принципів **Clean Architecture**. Це забезпечує незалежність бізнес-логіки від зовнішніх сервісів та бази даних.
 
@@ -11,7 +17,7 @@ description: Загальна архітектура бекенду Cinema Platf
 
 Проєкт розділений на чотири основні проєкти (шари), залежність між якими йде виключно ззовні всередину.
 
-### Core / Domain (`Cinema.Domain`)
+### Core / Domain (`Cinema.Domain`) <Badge text="No Dependencies" variant="danger" />
 
 Ядро системи. Не має **жодних** зовнішніх залежностей.
 
@@ -60,7 +66,7 @@ description: Загальна архітектура бекенду Cinema Platf
 
 ---
 
-## Патерн CQRS
+## Патерн CQRS <Badge text="Core" variant="note" />
 
 Ми використовуємо патерн **Command Query Responsibility Segregation (CQRS)** за допомогою бібліотеки MediatR. Це дозволяє оптимізувати операції читання та запису незалежно одна від одної.
 
