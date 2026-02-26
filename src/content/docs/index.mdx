@@ -1,40 +1,37 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
+title: Cinema Platform Docs
+description: Офіційна документація проєкту Cinema Platform.
+template: splash
 hero:
-  tagline: Congrats on setting up a new Starlight project!
-  image:
-    file: ../../assets/houston.webp
+  tagline: Єдине джерело істини для розробників. API, системний дизайн та гайди.
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: REST API Reference
+      link: /api/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
+      variant: primary
+    - text: Architecture
+      link: /architecture/overview/
+      icon: document
       variant: minimal
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## Next steps
-
 <CardGrid stagger>
-  <Card title="Update content" icon="pencil">
-    Edit `src/content/docs/index.mdx` to see this page change.
+  <Card title="REST API" icon="setting">
+    Автоматично згенерована специфікація ендпоінтів, форматів запитів та
+    відповідей на основі Swagger. Жодної ручної синхронізації.
   </Card>
-  <Card title="Change page layout" icon="document">
-    Delete `template: splash` in `src/content/docs/index.mdx` to display a
-    sidebar on this page.
+  <Card title="System Design" icon="puzzle">
+    Детальний опис бекенд-архітектури, структури бази даних та взаємодії із
+    зовнішніми сервісами на кшталт TMDB.
   </Card>
-  <Card title="Add new content" icon="add-document">
-    Add Markdown or MDX files to `src/content/docs` to create new pages.
+  <Card title="Developer Guides" icon="open-book">
+    Покрокові інструкції з локального розгортання проєкту, налаштування
+    середовища та інтеграції платіжних систем.
   </Card>
-  <Card title="Configure your site" icon="setting">
-    Edit your `sidebar` and other config in `astro.config.mjs`.
-  </Card>
-  <Card title="Read the docs" icon="open-book">
-    Learn more in [the Starlight Docs](https://starlight.astro.build/).
+  <Card title="Clean Code" icon="moon">
+    Мінімалізм у документації: зрозумілі приклади, застосування сучасних
+    патернів програмування та відсутність зайвого візуального шуму.
   </Card>
 </CardGrid>

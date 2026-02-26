@@ -10,7 +10,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Cinema Platform',
-      customCss: ['.src/styles/global.css'],
+      customCss: ['/src/styles/global.css'],
       plugins: [
         starlightOpenAPI([
           {
