@@ -1,6 +1,129 @@
 ---
 title: Local Setup
-description: Швидкий старт для локальної розробки.
+description: Покрокова інструкція з розгортання бекенду Cinema Platform на локальній машині.
+sidebar:
+  badge:
+    text: Updated
+    variant: note
 ---
 
-Мінімальні кроки для розгортання бекенду на локальній машині.
+import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+Цей гайд допоможе вам швидко розгорнути бекенд-частину проєкту на вашій локальній машині для розробки та тестування.
+
+## Вимоги до середовища
+
+Перед початком переконайтеся, що у вас встановлені наступні інструменти:
+
+- **.NET 8 SDK**
+- **Docker** та **Docker Compose** (для локальної БД та Redis)
+- **Git**
+
+---
+
+## Конфігурація оточення (`appsettings.Development.json`)
+
+Проєкт використовує файл `appsettings.Development.json` для зберігання локальних налаштувань.
+
+Створіть цей файл у директорії `Cinema.Api/` (якщо його там немає) та заповніть необхідними ключами:
+
+```json
+{
+  "ConnectionStrings": {
+    // Змініть рядок підключення відповідно до вашої БД у docker-compose
+    "DefaultConnection": "Server=localhost,1433;Database=CinemaDb;User Id=sa;Password=YourStrongPassword123!;TrustServerCertificate=True;",
+    "Redis": "localhost:6379"
+  },
+  "JwtSettings": {
+    "Secret": "your-very-long-and-secure-jwt-secret-key-12345",
+    "Issuer": "CinemaApi",
+    "Audience": "CinemaFrontend",
+    "ExpiryMinutes": 60,
+    "RefreshTokenExpiryDays": 7
+  },
+  "TmdbSettings": {
+    "ApiKey": "your-tmdb-api-key",
+    "BaseUrl": "https://api.themoviedb.org/3/"
+  },
+  "GeminiOptions": {
+    "ApiKey": "your-gemini-api-key"
+  },
+  "SmtpSettings": {
+    "Host": "smtp.gmail.com",
+    "Port": 587,
+    "Username": "your-email@gmail.com",
+    "Password": "your-app-password",
+    "EnableSsl": true
+  }
+}
+```
+
+### Де взяти API ключі?
+
+- TMDB: Зареєструйтесь на The Movie Database та отримайте безкоштовний ключ у налаштуваннях профілю.
+- Gemini: Отримайте ключ у консолі Google AI Studio.
+
+---
+
+## Розгортання
+
+<Steps>
+1. **Клонуйте репозиторій**
+
+   Завантажте код бекенду на вашу машину:
+
+   ```bash
+   git clone https://github.com/stkossman/cinema-platform-back.git
+   cd cinema-platform-back
+   ```
+
+2. **Запустіть інфраструктуру (Docker)**
+
+   Підніміть базу даних та Redis за допомогою Docker Compose:
+
+   ```bash
+   docker-compose up -d
+   ```
+
+   _Переконайтеся, що відповідні порти (зазвичай 1433 для SQL та 6379 для Redis) не зайняті іншими програмами._
+
+3. **Застосуйте міграції БД**
+
+   Створіть таблиці в базі даних за допомогою EF Core:
+
+   ```bash
+   dotnet ef database update --project Cinema.Infrastructure --startup-project Cinema.Api
+   ```
+
+4. **Запустіть API**
+
+   Запустіть проєкт. За замовчуванням Swagger буде доступний для тестування ендпоінтів:
+
+   ```bash
+   dotnet run --project Cinema.Api
+   ```
+</Steps>
+
+---
+
+## Корисні команди EF Core
+
+Якщо ви вносите зміни до сутностей у шарі Domain або конфігурацій у шарі Infrastructure, вам знадобляться ці команди:
+
+<Tabs>
+  <TabItem label="Створити міграцію" icon="pen">
+    ```bash
+    dotnet ef migrations add <MigrationName> --project Cinema.Infrastructure --startup-project Cinema.Api
+    ```
+  </TabItem>
+  <TabItem label="Видалити останню міграцію" icon="error">
+    ```bash
+    dotnet ef migrations remove --project Cinema.Infrastructure --startup-project Cinema.Api
+    ```
+  </TabItem>
+  <TabItem label="Оновити БД" icon="approve-check">
+    ```bash
+    dotnet ef database update --project Cinema.Infrastructure --startup-project Cinema.Api
+    ```
+  </TabItem>
+</Tabs>
