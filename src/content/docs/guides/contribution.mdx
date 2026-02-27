@@ -1,6 +1,151 @@
 ---
 title: Contribution
-description: Стандарти написання коду.
+description: Гайд з контрибʼюції - конвенції гілок, структура PR та стандарти чистого коду.
+sidebar:
+  badge:
+    text: Updated
+    variant: note
 ---
 
+import { Steps, Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
 Ми підтримуємо мінімалістичний підхід до розробки. Зрозуміла архітектура та чистий код важливіші за надмірну документацію всередині функцій.
+
+## Початок роботи
+
+<Steps>
+1. **Форкніть та клонуйте репозиторій**
+
+   ```bash
+   git clone https://github.com/ModusTeam/cinema-platform-docs.git
+   cd cinema-platform-docs
+   ```
+
+2. **Встановіть залежності**
+
+   ```bash
+   bun install
+   ```
+
+3. **Запустіть dev-сервер**
+
+   ```bash
+   bun dev
+   ```
+
+4. **Створіть гілку для своїх змін**
+
+   Дотримуйтесь конвенції іменування (див. нижче) та вносьте зміни лише у своїй гілці.
+</Steps>
+
+---
+
+## Конвенція іменування гілок
+
+Назва гілки має чітко відображати суть змін. Використовуйте наступні префікси:
+
+| Префікс | Призначення | Приклад |
+| :-- | :-- | :-- |
+| `feat/` | Нова сторінка або функціональність | `feat/add-auth-guide` |
+| `fix/` | Виправлення помилки або неточності | `fix/setup-typo` |
+| `docs/` | Оновлення наявного контенту | `docs/update-architecture` |
+| `chore/` | Технічні зміни (конфіг, залежності) | `chore/upgrade-starlight` |
+
+---
+
+## Стандарти контенту
+
+<Aside type="tip">
+  Пишіть так, ніби пояснюєте досвідченому розробнику. Уникайте очевидних коментарів - нехай код і структура говорять самі за себе.
+</Aside>
+
+### Структура файлів
+
+- Усі статті зберігаються у `src/content/docs/` у форматі `.md` або `.mdx`
+- Кожен файл **обов'язково** має frontmatter з `title` та `description`
+- Для інтерактивних елементів (`Steps`, `Tabs`, `Aside`) використовуйте `.mdx`
+
+
+### Мінімалізм у коді
+
+<Tabs>
+  <TabItem label="Правильно" icon="approve-check">
+    ```ts
+    // Функція без зайвих коментарів — назва говорить сама за себе
+    function calculateTotalPrice(items: PricingItem[]): number {
+      return items.reduce((sum, item) => sum + item.price, 0);
+    }
+    ```
+  </TabItem>
+  <TabItem label="Неправильно" icon="error">
+    ```ts
+    // Ця функція рахує загальну суму
+    // Приймає масив items
+    // Повертає число
+    function calculateTotalPrice(items: PricingItem[]): number {
+      // Використовуємо reduce для ітерації
+      return items.reduce((sum, item) => sum + item.price, 0); // додаємо ціну
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+### Іменування
+
+- **Змінні та функції:** `camelCase`, іменники для змінних, дієслова для функцій (`getUserById`, `seatCount`)
+- **Компоненти та класи:** `PascalCase` (`SeatLockingService`, `OrderCard`)
+- **Константи:** `SCREAMING_SNAKE_CASE` (`MAX_SEAT_LOCK_DURATION`)
+- **Файли:** `kebab-case` для `.md`/`.mdx` (`local-setup.mdx`, `database-schema.mdx`)
+
+---
+
+## Pull Request
+
+<Aside type="caution">
+  PR без опису або з назвою типу `fix stuff` буде повернуто на доопрацювання.
+</Aside>
+Дотримуйтесь наступної структури опису PR:
+
+```markdown
+## Що змінено
+Коротко - 1-2 речення про суть змін.
+
+## Чому
+Контекст: яку проблему вирішує або яку задачу закриває цей PR.
+
+## Checklist
+- [ ] `bun run format` виконано
+- [ ] Frontmatter присутній у всіх змінених файлах
+- [ ] Зміни протестовано локально (`bun dev`)
+```
+
+### Перед створенням PR
+
+```bash
+# Форматування (Biome)
+bun run format
+
+# Перевірка білду
+bun run build
+```
+
+---
+
+## Форматування
+
+Проєкт використовує **Biome** для форматування та лінтингу. Конфігурація знаходиться у `biome.json`. Запускайте форматування перед кожним комітом:
+```bash
+bun run format
+```
+
+<Aside type="note">
+  CI не запускає форматування автоматично - неформатований код може призвести до небажаних diff-ів у PR.
+</Aside>
+
+<Aside type="caution">
+  Файли `.md` та `.mdx` **не підпадають під автоматичне форматування Biome**. Для них дотримуйтесь правил вручну відповідно до [Starlight conventions](https://starlight.astro.build/guides/authoring-content/):
+
+  - Вміст кожного `<li>` у `<Steps>` має мати відступ у 3 пробіли
+  - Компоненти `<Tabs>`, `<Card>` та інші JSX-елементи форматуються вручну
+  - Frontmatter обов'язковий у кожному файлі
+</Aside>
